@@ -1,1 +1,29 @@
-**[Betty's Creative Process HTML](https://editor.p5js.org/JuliaQi/sketches/5JZ69mRt)**
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+  </head>
+  <body>
+    <main>
+    </main>
+    <script src="sketch.js"></script>
+  </body>
+  
+  <h1> Betty's Creative Process </h1>
+    
+  <img
+  class="fit-picture"
+  src="Betty1.png"
+  alt="BettyWork" />
+
+    <nav class="menu">
+  <ul>
+    <li><a href="who.html">Who is Betty?</a></li>
+    <li><a href="process.html">Betty's Creative Process</a></li>
+    <li><a href="work.html">Betty's Work</a></li>
+  </ul>
+</nav>
+    
+</html>
