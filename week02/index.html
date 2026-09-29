@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Halftone Poster Tool</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 20px;
+    }
+    .control {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h3>Halftone Poster Tool</h3>
+
+  <div>
+    <label>Upload Image:</label>
+    <input type="file" id="imageInput" >
+  </div>
+
+  <div>
+    <label>Contrast:</label>
+    <input type="range" id="contrastSlider" min="0" max="200" value="100">
+  </div>
+
+  <div>
+    <label>Hue:</label>
+    <input type="range" id="hueSlider" min="0" max="360" value="200">
+  </div>
+
+  <div>
+    <label>Text Size:</label>
+    <input type="range" id="textSizeSlider" min="10" max="150" value="60">
+  </div>
+
+  <div>
+    <label>Center Text:</label>
+    <input type="text" id="textInput" value="POSTER">
+  </div>
+
+  <div>
+    <button id="saveButton">Save PNG</button>
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
