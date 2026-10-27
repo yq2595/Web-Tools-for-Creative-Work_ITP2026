@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Narrative Lab</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#"><span class="brand-mark">N</span><span>Narrative Lab<small>Interactive story builder</small></span></a><nav class="tabs"><button class="tab active" data-view="editor">01&nbsp; Story Map</button><button class="tab" data-view="play">02&nbsp; Playtest</button></nav><div class="top-actions"><span id="saveStatus">Saved locally</span><button class="button ghost" id="exportJson">Export JSON</button></div></header>
+<main>
+<section id="editorView" class="view active">
+  <aside class="sidebar">
+    <div class="side-heading"><div><p class="eyebrow">BUILD YOUR STORY</p><h1>Story map</h1></div><span class="count" id="nodeCount">0 nodes</span></div>
+    <p class="intro">Create Scene, Choice, and Ending nodes. A Scene can connect to several Choice nodes; each Choice represents one option and leads to its next node.</p>
+    <div class="search-block"><label class="search-label" for="nodeSearch">FIND IN STORY</label><div class="search-input-wrap"><span>⌕</span><input id="nodeSearch" type="search" placeholder="Search nodes or text…" autocomplete="off"><kbd>⌘ K</kbd></div><div class="search-filters"><select id="searchType" aria-label="Filter node type"><option value="all">All types</option><option value="scene">Scene</option><option value="choice">Choice</option><option value="ending">Ending</option></select><span id="searchCount">0 results</span></div><div id="searchResults" class="search-results hidden"></div></div>
+    <button class="button primary full" id="addNode"><span class="plus">＋</span> Add scene node</button><div class="add-node-row"><button class="button full" onclick="addNode('choice')">＋ Add Choice node</button><button class="button full" onclick="addNode('ending')">＋ Add ending</button></div>
+    <div class="side-section"><h2>Quick actions</h2>
+      <button class="action-row" id="autoLayout"><span class="action-icon">↔</span><span><b>Auto arrange</b><small>Organize nodes into a flow</small></span></button>
+      <button class="action-row" id="exportPng"><span class="action-icon">↓</span><span><b>Export map as PNG</b><small>Save a shareable story map</small></span></button>
+      <button class="action-row" id="resetDemo"><span class="action-icon">◇</span><span><b>View sample story</b><small>Open an example if you need help</small></span></button>
+    </div>
+    <div class="hint"><b>Canvas controls</b><p>Drag nodes to arrange them. Shift-click or drag on empty canvas to multi-select. ⌘/Ctrl+C copies selected nodes, ⌘/Ctrl+V pastes, ⌘/Ctrl+Z undoes, and ⌘/Ctrl+Shift+Z redoes. Delete removes selected nodes or connections.</p></div>
+    <div class="legend"><span><i class="dot scene"></i> Scene</span><span><i class="dot" style="background:#91a7bd"></i> Choice</span><span><i class="dot ending"></i> Ending</span></div>
+  </aside>
+  <section class="workspace">
+    <div class="workspace-bar"><div><strong>Canvas</strong><span class="muted">· Your story structure</span></div><div class="canvas-tools"><span id="selectionInfo">0 nodes · 0 connections selected</span><button class="button small danger" id="deleteSelection" disabled>Delete selected</button><button class="button small ghost" id="zoomOut">−</button><span id="zoomLabel">100%</span><button class="button small ghost" id="zoomIn">＋</button><button class="button small ghost" id="fitCanvas">Fit</button></div></div>
+    <div id="canvasViewport" class="canvas-viewport"><div id="canvasStage" class="canvas-stage"><svg id="connections" class="connections"></svg><div id="nodesLayer"></div></div><div class="canvas-empty hidden" id="emptyState"><div class="empty-symbol">＋</div><h2>Your story starts here</h2><p>Start with a Scene. Connect it to one or more Choice nodes, or directly to another Scene to continue the story.</p><button class="button primary" id="emptyAdd">＋ Add first node</button></div></div>
+    <div class="canvas-footer"><span><i class="dot scene"></i> Scene</span><span><i class="dot" style="background:#91a7bd"></i> Choice</span><span><i class="dot ending"></i> Ending</span><span class="muted">Drag to arrange · box-select to edit groups</span></div>
+  </section>
+  <aside class="right-panel"><div class="right-panel-tabs"><button class="right-tab active" data-panel="inspector">Inspector</button><button class="right-tab" data-panel="script">Script Panel</button></div><div class="right-panel-content" id="inspector"><div class="inspector-empty"><div class="inspector-icon">✎</div><h2>Edit a scene</h2><p>Select a node to edit its text, image, color, and connections. Scene nodes can connect to multiple Choice nodes; each Choice node represents one option.</p></div></div><div id="scriptPanel" class="script-panel hidden"><div class="script-heading"><p class="eyebrow">READ YOUR STORY</p><h2>Script Panel</h2><p class="script-intro">Browse the story in narrative order. Select any section to locate its node on the canvas.</p><div class="script-meta" id="scriptMeta">0 sections</div></div><div id="scriptContent" class="script-content"></div></div></aside>
+</section>
+<section id="playView" class="view play-view">
+  <div class="play-sidebar"><p class="eyebrow">TEST THE EXPERIENCE</p><h1>Playtest</h1><p class="intro">Play through the story using the same choices you've connected in Story Map. Try different paths to check your narrative logic.</p><div class="play-stats"><div><span id="playSceneCount">0</span><small>Scenes</small></div><div><span id="playEndingCount">0</span><small>Endings</small></div></div><button class="button primary full" id="restartPlay">↻ Restart story</button><div class="hint"><b>Testing tip</b><p>If a choice leads nowhere, return to Story Map and set a destination for that option.</p></div></div>
+  <div class="play-main"><div class="play-topline"><span class="status-pill"><i></i> PLAYTEST MODE</span><span id="playProgress">Scene 1</span></div><article class="story-card" id="storyCard"></article><div class="play-bottom"><span id="pathLabel">Your path: Start</span><button class="button ghost" id="backPlay" disabled>← Previous</button></div></div>
+</section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<template id="nodeTemplate"><article class="story-node"><div class="node-top"><span class="node-type">SCENE</span><button class="node-menu" title="Edit node">···</button></div><div class="node-image-wrap hidden"><img class="node-image" alt="Scene image"></div><h3 class="node-title"></h3><p class="node-description"></p><div class="node-choices"></div><div class="node-bottom"><span class="node-id"></span><button class="connect-button">Connect ↗</button></div></article></template>
+<script src="app.js"></script>
+</body></html>
